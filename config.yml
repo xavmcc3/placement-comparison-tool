@@ -1,0 +1,10 @@
+all:
+ suppress_python_warnings: yes
+compare:
+ write_to_text_file: no
+ overwrite_original: no # yes, no
+ included_color: 00e981eb
+ ask_target_column: yes # yes, no
+ clear_column_first: yes
+ open_when_done: ask # yes, no, ask
+ target_column: 13

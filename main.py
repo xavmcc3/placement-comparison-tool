@@ -16,8 +16,8 @@ import yaml
 import math
 import os
 
-# Compile with `python -m PyInstaller xlsearch.spec`
-# or `python -m PyInstaller --clean xlsearch.spec`
+# Compile with `python -m PyInstaller placement-manual-comparison.spec`
+# or `python -m PyInstaller --clean placement-manual-comparison.spec`
 # The exe is placed in ./dist
 
 #region Command Line Tools

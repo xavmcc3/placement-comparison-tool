@@ -8,5 +8,6 @@
         "pyinstaller",
         "struct",
         "svgrepo"
-    ]
+    ],
+    "cSpell.enabled": false
 }

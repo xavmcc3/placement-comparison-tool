@@ -39,7 +39,7 @@ def get_config(filename):
 	return cfg
 #endregion
 
-#region Write List to Text File
+#region Write to Text File
 def write_to_txt(lines, filename = 'included.txt'):
 	str = ""
 	print("Writing shared items to text file...", end="\r")
@@ -93,8 +93,9 @@ def get_shared_items(items, xl_list_path):
 	clrprint("Searching excel list for shared items [DONE]", clr='g')
 	return shared
 
-def write_to_spreadsheet(spreadsheet, output, shared, column, color = "00FFFF00", clear=True):
+def write_to_spreadsheet(spreadsheet, output, shared, column, color = "00FFFF00", clear=True, log = lambda _ : None):
 	print("Writing to spreadsheet... (this may take a while)", end="\r")
+	log("> Loading workbook")
 	workbook = openpyxl.load_workbook(spreadsheet)
 	sheet = workbook.active
 
@@ -121,25 +122,27 @@ def write_to_spreadsheet(spreadsheet, output, shared, column, color = "00FFFF00"
 				set_bottom = None
 				prev = False
 	
+	readable = output.replace("\\", "/")
+	log(rf'> Saving workbook to {readable}')
 	workbook.save(output)
+
 	clr_line()
 	clrprint("Writing to spreadsheet [DONE]", clr='g')
 	print(f"Spreadsheet saved to \"{output}\"")
 	return output
 #endregion
 
-def compare(cfg, xl_base_path, xl_list_path):
+def compare(cfg, xl_base_path, xl_list_path, log = lambda _ : None):
+	log("> Getting items")
 	items = get_items(xl_base_path)
+
+	log("> Comparing items")
 	shared_items = get_shared_items(items, xl_list_path)
 
-	if cfg['write_to_text_file']:
-		write_to_txt(shared_items)
-
-	out = 'temp.xlsx'
-	if cfg['overwrite_original']:
-		out = xl_base_path
-	
-	return write_to_spreadsheet(xl_base_path, out, shared_items, cfg['target_column'], cfg['included_color'], cfg['clear_column_first'])
+	out = xl_base_path
+	color = f"00{cfg['color'][1:]}"
+	col_num = openpyxl.utils.column_index_from_string(cfg['column']) - 1
+	return write_to_spreadsheet(xl_base_path, out, shared_items, col_num, color, True, log=log)
 
 def main():
 	print("\nConfiguration:\n Open the 'config.yml' file in notepad to make changes\n colors are in aRGB format")

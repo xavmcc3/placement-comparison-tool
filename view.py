@@ -87,10 +87,7 @@ class Api:
         try:
             compare(params, Api.place, Api.comp, Api.log)
         except Exception as e:
-            if e.__class__.__name__ != ValueError:
-                raise e
-            else:
-                Api.log(f"> [<span style='color: #ffff00;'>Warn</span>] {e}")
+            Api.log(f"> [<span style='color: #ffff00;'>Warn</span>] {e}")
         
         Api.log("> [<span style='color: #ff00ff;'>Done</span>]")
 
